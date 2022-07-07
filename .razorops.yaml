@@ -7,4 +7,4 @@ tasks:
     - commands:
       - |
         mvn clean package
-        scp -r target/spring3-mvc-maven-xml-hello-world-1.2.war ubuntu@13.233.252.53:/opt/apache-tomcat-8.5.81/webapps
+        scp -r target/spring3-mvc-maven-xml-hello-world-1.2.war ubuntu@13.235.243.245:/opt/apache-tomcat-8.5.81/webapps
