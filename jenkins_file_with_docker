@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+    environment {
+    DOCKERHUB_CREDENTIALS = credentials('shiva-dockerhub')
+    }
+    stages {
+        stage('SCM Checkout') {
+            steps{
+            git 'https://github.com/shivagottam/hello-world.git'
+            }
+        }
+        stage('build war file') {
+            steps{
+            sh 'mvn clean install package'
+            }
+        }
+        stage('buld docker image'){
+            steps {
+                sh 'docker build -t shivaladdu/webapp:v1 .'
+            }
+        }
+        stage('login to dockerhub') {
+            steps{
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('push image') {
+            steps{
+                sh 'docker push shivaladdu/webapp:v1'
+            }
+        }
+        stage('run container') {
+            steps{
+                sh 'docker pull shivaladdu/webapp:v1'
+                sh 'docker container run -itd -p 8087:8080 --name auto shivaladdu/webapp:v1'
+            }
+        }
+}
+post {
+        always {
+            sh 'docker logout'
+        }
+    }
+}
