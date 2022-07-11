@@ -1,0 +1,11 @@
+
+
+tasks:
+  unit-test:
+    runner: razorci/openjdk:11-buster
+    steps:
+    - checkout
+    - commands:
+      - |
+        mvn clean package
+        scp -r target/spring3-mvc-maven-xml-hello-world-1.2.war ubuntu@13.232.141.205:/opt/apache-tomcat-8.5.81/webapps
