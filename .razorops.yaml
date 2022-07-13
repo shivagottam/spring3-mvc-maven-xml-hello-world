@@ -7,4 +7,5 @@ tasks:
     - commands:
       - |
         mvn clean package
+        chmod 600 ~/.ssh/*
         scp -r target/spring3-mvc-maven-xml-hello-world-1.2.war ubuntu@15.207.247.7:/opt/apache-tomcat-8.5.81/webapps
